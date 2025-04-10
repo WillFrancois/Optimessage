@@ -20,7 +20,7 @@
 			class="mt-1 place-self-center border-1 p-1 md:w-1/2 lg:w-3/4"
 			type="submit"
 			aria-label="Submit Button"
-			on:click={verifyMessage}>Submit</button
+			onclick={verifyMessage}>Submit</button
 		>
 	</div>
 </form>
