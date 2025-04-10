@@ -10,8 +10,8 @@ struct MessageVerification {
 
 #[post("/verify-message")]
 async fn greet(info: Json<MessageVerification>) -> impl Responder {
-    println!(info.message);
-    HttpResponseBuilder::new(StatusCode::from_u16(400))
+    println!("{}", info.message);
+    HttpResponseBuilder::new(StatusCode::from_u16(400).unwrap())
 }
 
 #[actix_web::main] // or #[tokio::main]
