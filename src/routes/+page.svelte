@@ -2,11 +2,15 @@
 	let loading: string = $state('');
 
 	async function verifyMessage(): Promise<boolean> {
-		if (loading === 'Moderating...') {
+		if (
+			loading ===
+			'Thank you for your submission! This will be posted if it passes the automated moderating process.'
+		) {
 			console.log('Still loading!');
 			return false;
 		}
-		loading = 'Moderating...';
+		loading =
+			'Thank you for your submission! This will be posted if it passes the automated moderating process.';
 		let userText: HTMLTextAreaElement | null = document.querySelector('#user-input');
 
 		if (userText != null) {
@@ -45,16 +49,16 @@
 		<textarea
 			maxlength="100"
 			id="user-input"
-			class="resize-none place-self-center md:w-2/1 lg:w-3/1"
+			class="shadow-black-100 resize-none place-self-center rounded-full shadow-lg md:w-1/1 lg:w-3/1"
 		></textarea>
 		<button
-			class="mt-1 place-self-center border-1 p-1 md:w-1/2 lg:w-3/4"
+			class="shadow-black-100 mt-1 place-self-center rounded-full border-1 p-1 shadow-lg md:w-1/2 lg:w-3/4"
 			type="submit"
 			aria-label="Submit Button"
 			onclick={verifyMessage}>Submit</button
 		>
-		<p class="text-center">
-			{loading}
-		</p>
 	</div>
+	<p class="text-center">
+		{loading}
+	</p>
 </form>
