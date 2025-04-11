@@ -1,8 +1,12 @@
 <script lang="ts">
-	let loading: boolean = $state(false);
+	let loading: string = $state('');
 
 	async function verifyMessage(): Promise<boolean> {
-		loading = true;
+		if (loading === 'Moderating...') {
+			console.log('Still loading!');
+			return false;
+		}
+		loading = 'Moderating...';
 		let userText: HTMLTextAreaElement | null = document.querySelector('#user-input');
 
 		if (userText != null) {
@@ -14,15 +18,22 @@
 				body: JSON.stringify({ message: `${userText.value}` }),
 				headers: header
 			}).then((response) => {
-				loading = false;
 				return response.text();
 			});
 
 			console.log(response);
+			if (response === 'true') {
+				loading = 'Submitted successfully!';
+			} else if (response === 'false') {
+				loading = 'This comment was deemed unsuitable.';
+			} else if (response === 'unknown') {
+				loading = "You've confused the moderator. Please try again. :(";
+			} else {
+				loading = "Something's gone wrong. Please try reloading the page and submitting again.";
+			}
 		}
 
-		loading = false;
-		return false;
+		return true;
 	}
 </script>
 
@@ -42,7 +53,7 @@
 			aria-label="Submit Button"
 			onclick={verifyMessage}>Submit</button
 		>
-		<p>
+		<p class="text-center">
 			{loading}
 		</p>
 	</div>
