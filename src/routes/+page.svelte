@@ -32,6 +32,8 @@
 				loading = 'This comment was deemed unsuitable.';
 			} else if (response === 'unknown') {
 				loading = "You've confused the moderator. Please try again. :(";
+			} else if (response === 'busy') {
+				loading = 'Server is busy. Try again later!';
 			} else {
 				loading = "Something's gone wrong. Please try reloading the page and submitting again.";
 			}
