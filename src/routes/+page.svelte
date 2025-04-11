@@ -18,7 +18,6 @@
 			header.append('Content-Type', 'application/json');
 
 			let response = await fetch('http://localhost:1337/optimessage/verify-message', {
-				mode: 'no-cors',
 				method: 'POST',
 				body: JSON.stringify({ message: `${userText.value}` }),
 				headers: header
