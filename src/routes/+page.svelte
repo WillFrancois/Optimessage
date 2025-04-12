@@ -1,7 +1,16 @@
 <script lang="ts">
+	interface PageProps {
+		data: {
+			messageList: string[];
+		};
+	}
+
+	let { data }: PageProps = $props();
 	let loading: string = $state('');
 
 	async function verifyMessage(): Promise<boolean> {
+		let userText: HTMLTextAreaElement | null = document.querySelector('#user-input');
+
 		if (
 			loading ===
 			'Thank you for your submission! This will be posted if it passes the automated moderating process.'
@@ -11,15 +20,19 @@
 		}
 		loading =
 			'Thank you for your submission! This will be posted if it passes the automated moderating process.';
-		let userText: HTMLTextAreaElement | null = document.querySelector('#user-input');
 
 		if (userText != null) {
+			if (userText.value === '') {
+				loading = 'Please provide a value before submitting!';
+				return false;
+			}
+
 			let header = new Headers();
 			header.append('Content-Type', 'application/json');
 
 			let response = await fetch('http://localhost:1337/optimessage/verify-message', {
 				method: 'POST',
-				body: JSON.stringify({ message: `${userText.value}` }),
+				body: JSON.stringify({ message: `${userText.value}`, createdAt: Date.now() }),
 				headers: header
 			}).then((response) => {
 				return response.text();
@@ -43,7 +56,7 @@
 	}
 </script>
 
-<h1 class="text-center">Welcome to Optimessage!</h1>
+<h1 class="text-center text-[2rem]">Welcome to Optimessage!</h1>
 
 <form>
 	<div class="grid w-screen place-content-center">
@@ -63,4 +76,12 @@
 	<p class="text-center">
 		{loading}
 	</p>
+	<h2 class="mt-7 text-center text-[1.2rem]">Recent messages:</h2>
+	<ul>
+		{#each data.messageList as message}
+			<div class="m-5 h-15 place-content-center bg-blue-50">
+				<li><strong><p class="text-center">{message}</p></strong></li>
+			</div>
+		{/each}
+	</ul>
 </form>
